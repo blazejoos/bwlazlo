@@ -1,0 +1,304 @@
+---
+import { Picture } from 'astro:assets';
+
+import f1 from '../assets/photos/foto1.jpg';
+import f2 from '../assets/photos/foto2.jpg';
+import f3 from '../assets/photos/foto3.jpg';
+import f4 from '../assets/photos/foto4.jpg';
+import f5 from '../assets/photos/foto5.jpg';
+import f6 from '../assets/photos/foto6.jpg';
+import f7 from '../assets/photos/foto7.jpg';
+import f8 from '../assets/photos/foto8.jpg';
+import f9 from '../assets/photos/foto9.jpg';
+import f10 from '../assets/photos/foto10.jpg';
+import f11 from '../assets/photos/foto11.jpg';
+import f12 from '../assets/photos/foto12.jpg';
+import f13 from '../assets/photos/foto13.jpg';
+import f14 from '../assets/photos/foto14.jpg';
+
+const slides = [
+  { src: f1, alt: 'Błażej Wlazło - Fotografia 1' },
+  { src: f2, alt: 'Błażej Wlazło - Fotografia 2' },
+  { src: f3, alt: 'Błażej Wlazło - Fotografia 3' },
+  { src: f4, alt: 'Błażej Wlazło - Fotografia 4' },
+  { src: f5, alt: 'Błażej Wlazło - Fotografia 5' },
+  { src: f6, alt: 'Błażej Wlazło - Fotografia 6' },
+  { src: f7, alt: 'Błażej Wlazło - Fotografia 7' },
+  { src: f8, alt: 'Błażej Wlazło - Fotografia 8' },
+  { src: f9, alt: 'Błażej Wlazło - Fotografia 9' },
+  { src: f10, alt: 'Błażej Wlazło - Fotografia 10' },
+  { src: f11, alt: 'Błażej Wlazło - Fotografia 11' },
+  { src: f12, alt: 'Błażej Wlazło - Fotografia 12' },
+  { src: f13, alt: 'Błażej Wlazło - Fotografia 13' },
+  { src: f14, alt: 'Błażej Wlazło - Fotografia 14' },
+];
+---
+
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Błażej Wlazło | Photographer</title>
+    <meta name="description" content="Minimalistyczne portfolio fotograficzne - Błażej Wlazło." />
+    <meta property="og:title" content="Błażej Wlazło | Photographer" />
+    <meta property="og:description" content="Minimalistyczne portfolio fotograficzne." />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+
+    <main class="slider-container" id="slider" title="Kliknij, aby zobaczyć następne zdjęcie">
+      {slides.map((slide, index) => (
+        <div class="slide" data-index={index}>
+          
+          <div class="blur-background">
+            <Picture 
+              src={slide.src} 
+              formats={['avif', 'webp']} 
+              alt="" 
+              role="presentation"
+            />
+          </div>
+
+          <div class="main-image">
+            <Picture 
+              src={slide.src} 
+              formats={['avif', 'webp']} 
+              alt={slide.alt}
+            />
+          </div>
+
+        </div>
+      ))}
+      
+      <div class="scrim"></div>
+    </main>
+
+    <header class="ui-overlay">
+      <div class="brand">
+        <h1>Błażej Wlazło</h1>
+        <p class="subtitle">Photographer</p>
+      </div>
+      
+      <nav class="links">
+        <a href="https://www.instagram.com/blazej_wlazlo.photography/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61552165792941" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="mailto:blazejwlazlo01@gmail.com" class="email">blazejwlazlo01@gmail.com</a>
+      </nav>
+    </header>
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #000;
+        color: #fff;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .slider-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100dvh;
+        z-index: 1;
+        cursor: pointer;
+        overflow: hidden;
+      }
+
+      .slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .slide.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .blur-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        overflow: hidden;
+      }
+      .blur-background picture, .blur-background img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        -webkit-filter: blur(6px) brightness(0.8);
+        filter: blur(6px) brightness(0.8);
+        transform: scale(1.2);
+      }
+
+      .main-image {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.8)); 
+      }
+      .main-image picture, .main-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; 
+      }
+
+      @media (min-width: 768px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 2/1) {
+        .blur-background {
+          display: none;
+        }
+        .main-image {
+          filter: none;
+        }
+        .main-image picture, .main-image img {
+          object-fit: cover;
+        }
+      }
+
+      .scrim {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 30vh;
+        background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .ui-overlay {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 40px;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        pointer-events: none;
+      }
+
+      .brand, .links {
+        pointer-events: auto;
+      }
+
+      h1 {
+        font-size: 1.1rem;
+        font-weight: 400;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        font-size: 0.8rem;
+        opacity: 0.5;
+        letter-spacing: 0.1em;
+        margin-top: 4px;
+      }
+
+      .links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .links a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 0.8rem;
+        opacity: 0.6;
+        letter-spacing: 0.05em;
+        transition: opacity 0.3s ease;
+      }
+
+      .links a:hover {
+        opacity: 1;
+      }
+
+      .links .email {
+        opacity: 0.4;
+      }
+
+      @media (min-width: 768px) {
+        .ui-overlay {
+          padding: 60px;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: flex-end;
+        }
+        .links {
+          gap: 30px;
+        }
+      }
+    </style>
+
+    <script>
+      const slides = document.querySelectorAll('.slide');
+      const slider = document.getElementById('slider');
+      
+
+      let shuffledIndices = Array.from(slides).map((_, i) => i);
+      for (let i = shuffledIndices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledIndices[i], shuffledIndices[j]] = [shuffledIndices[j], shuffledIndices[i]];
+      }
+
+      let currentStep = 0;
+      let slideInterval;
+      const INTERVAL_TIME = 6000;
+
+      function renderSlide(step) {
+        if (!slides.length) return;
+        
+        slides.forEach(slide => slide.classList.remove('active'));
+        
+    
+        const realDomIndex = shuffledIndices[step];
+        slides[realDomIndex].classList.add('active');
+      }
+
+      function showNextSlide() {
+        currentStep = (currentStep + 1) % shuffledIndices.length;
+        renderSlide(currentStep);
+      }
+
+      function startInterval() {
+        clearInterval(slideInterval);
+        slideInterval = setInterval(showNextSlide, INTERVAL_TIME);
+      }
+
+      renderSlide(currentStep);
+      startInterval();
+
+      if (slider) {
+        slider.addEventListener('click', () => {
+          showNextSlide();
+          startInterval();
+        });
+      }
+    </script>
+  </body>
+</html>
