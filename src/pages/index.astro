@@ -1,36 +1,36 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture } from "astro:assets";
 
-import f1 from '../assets/photos/foto1.jpg';
-import f2 from '../assets/photos/foto2.jpg';
-import f3 from '../assets/photos/foto3.jpg';
-import f4 from '../assets/photos/foto4.jpg';
-import f5 from '../assets/photos/foto5.jpg';
-import f6 from '../assets/photos/foto6.jpg';
-import f7 from '../assets/photos/foto7.jpg';
-import f8 from '../assets/photos/foto8.jpg';
-import f9 from '../assets/photos/foto9.jpg';
-import f10 from '../assets/photos/foto10.jpg';
-import f11 from '../assets/photos/foto11.jpg';
-import f12 from '../assets/photos/foto12.jpg';
-import f13 from '../assets/photos/foto13.jpg';
-import f14 from '../assets/photos/foto14.jpg';
+import f1 from "../assets/photos/foto1.jpg";
+import f2 from "../assets/photos/foto2.jpg";
+import f3 from "../assets/photos/foto3.jpg";
+import f4 from "../assets/photos/foto4.jpg";
+import f5 from "../assets/photos/foto5.jpg";
+import f6 from "../assets/photos/foto6.jpg";
+import f7 from "../assets/photos/foto7.jpg";
+import f8 from "../assets/photos/foto8.jpg";
+import f9 from "../assets/photos/foto9.jpg";
+import f10 from "../assets/photos/foto10.jpg";
+import f11 from "../assets/photos/foto11.jpg";
+import f12 from "../assets/photos/foto12.jpg";
+import f13 from "../assets/photos/foto13.jpg";
+import f14 from "../assets/photos/foto14.jpg";
 
 const slides = [
-  { src: f1, alt: 'Błażej Wlazło - Fotografia 1' },
-  { src: f2, alt: 'Błażej Wlazło - Fotografia 2' },
-  { src: f3, alt: 'Błażej Wlazło - Fotografia 3' },
-  { src: f4, alt: 'Błażej Wlazło - Fotografia 4' },
-  { src: f5, alt: 'Błażej Wlazło - Fotografia 5' },
-  { src: f6, alt: 'Błażej Wlazło - Fotografia 6' },
-  { src: f7, alt: 'Błażej Wlazło - Fotografia 7' },
-  { src: f8, alt: 'Błażej Wlazło - Fotografia 8' },
-  { src: f9, alt: 'Błażej Wlazło - Fotografia 9' },
-  { src: f10, alt: 'Błażej Wlazło - Fotografia 10' },
-  { src: f11, alt: 'Błażej Wlazło - Fotografia 11' },
-  { src: f12, alt: 'Błażej Wlazło - Fotografia 12' },
-  { src: f13, alt: 'Błażej Wlazło - Fotografia 13' },
-  { src: f14, alt: 'Błażej Wlazło - Fotografia 14' },
+  { src: f1, alt: "Błażej Wlazło - Fotografia 1" },
+  { src: f2, alt: "Błażej Wlazło - Fotografia 2" },
+  { src: f3, alt: "Błażej Wlazło - Fotografia 3" },
+  { src: f4, alt: "Błażej Wlazło - Fotografia 4" },
+  { src: f5, alt: "Błażej Wlazło - Fotografia 5" },
+  { src: f6, alt: "Błażej Wlazło - Fotografia 6" },
+  { src: f7, alt: "Błażej Wlazło - Fotografia 7" },
+  { src: f8, alt: "Błażej Wlazło - Fotografia 8" },
+  { src: f9, alt: "Błażej Wlazło - Fotografia 9" },
+  { src: f10, alt: "Błażej Wlazło - Fotografia 10" },
+  { src: f11, alt: "Błażej Wlazło - Fotografia 11" },
+  { src: f12, alt: "Błażej Wlazło - Fotografia 12" },
+  { src: f13, alt: "Błażej Wlazło - Fotografia 13" },
+  { src: f14, alt: "Błażej Wlazło - Fotografia 14" },
 ];
 ---
 
@@ -40,47 +40,60 @@ const slides = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Błażej Wlazło | Photographer</title>
-    <meta name="description" content="Minimalistyczne portfolio fotograficzne - Błażej Wlazło." />
-    <meta property="og:title" content="Błażej Wlazło | Photographer" />
-    <meta property="og:description" content="Minimalistyczne portfolio fotograficzne." />
+    <meta
+      name="description"
+      content="Minimalistyczne portfolio fotograficzne - Błażej Wlazło."
+    />
+    <meta property="og:title" content="Błażej Wlazło Photographer" />
+    <meta
+      property="og:description"
+      content="Minimalistyczne portfolio fotograficzne."
+    />
     <meta property="og:type" content="website" />
   </head>
   <body>
+    <main
+      class="slider-container"
+      id="slider"
+      title="Kliknij, aby zobaczyć następne zdjęcie"
+    >
+      {
+        slides.map((slide, index) => (
+          <div
+            class={`slide ${index === 0 ? "active" : ""}`}
+            data-index={index}
+          >
+            <div class="blur-background">
+              <Picture
+                src={slide.src}
+                formats={["avif", "webp"]}
+                width={200}
+                quality={20}
+                alt=""
+                role="presentation"
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
+                decoding={index === 0 ? "sync" : "async"}
+              />
+            </div>
 
-    <main class="slider-container" id="slider" title="Kliknij, aby zobaczyć następne zdjęcie">
-      {slides.map((slide, index) => (
-        <div class={`slide ${index === 0 ? 'active' : ''}`} data-index={index}>
-          
-          <div class="blur-background">
-            <Picture 
-              src={slide.src} 
-              formats={['avif', 'webp']} 
-              width={800} 
-              quality={40} 
-              alt="" 
-              role="presentation"
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchpriority={index === 0 ? "high" : "auto"}
-              decoding={index === 0 ? "sync" : "async"}
-            />
+            <div class="main-image">
+              <Picture
+                src={slide.src}
+                formats={["avif", "webp"]}
+                widths={[400, 800, 1200, 1920]}
+                sizes="(max-width: 768px) 100vw, 1920px"
+                quality={75}
+                alt={slide.alt}
+                loading={index === 0 ? "eager" : "lazy"}
+                fetchpriority={index === 0 ? "high" : "auto"}
+                decoding={index === 0 ? "sync" : "async"}
+              />
+            </div>
           </div>
+        ))
+      }
 
-          <div class="main-image">
-            <Picture 
-              src={slide.src} 
-              formats={['avif', 'webp']} 
-              width={1920}
-              quality={80}
-              alt={slide.alt}
-              loading={index === 0 ? "eager" : "lazy"}
-              fetchpriority={index === 0 ? "high" : "auto"}
-              decoding={index === 0 ? "sync" : "async"}
-            />
-          </div>
-
-        </div>
-      ))}
-      
       <div class="scrim"></div>
     </main>
 
@@ -89,11 +102,21 @@ const slides = [
         <h1>Błażej Wlazło</h1>
         <p class="subtitle">Photographer</p>
       </div>
-      
+
       <nav class="links">
-        <a href="https://www.instagram.com/blazej_wlazlo.photography/" target="_blank" rel="noopener noreferrer">Instagram</a>
-        <a href="https://www.facebook.com/profile.php?id=61552165792941" target="_blank" rel="noopener noreferrer">Facebook</a>
-        <a href="mailto:blazejwlazlo01@gmail.com" class="email">blazejwlazlo01@gmail.com</a>
+        <a
+          href="https://www.instagram.com/blazej_wlazlo.photography/"
+          target="_blank"
+          rel="noopener noreferrer">Instagram</a
+        >
+        <a
+          href="https://www.facebook.com/profile.php?id=61552165792941"
+          target="_blank"
+          rel="noopener noreferrer">Facebook</a
+        >
+        <a href="mailto:blazejwlazlo01@gmail.com" class="email"
+          >blazejwlazlo01@gmail.com</a
+        >
       </nav>
     </header>
 
@@ -106,7 +129,15 @@ const slides = [
       body {
         background-color: #000;
         color: #fff;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          Arial,
+          sans-serif;
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
       }
@@ -149,7 +180,8 @@ const slides = [
         z-index: 1;
         overflow: hidden;
       }
-      .blur-background picture, .blur-background img {
+      .blur-background picture,
+      .blur-background img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -166,24 +198,25 @@ const slides = [
         display: flex;
         align-items: center;
         justify-content: center;
-        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5)); 
+        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
       }
-      .main-image picture, .main-image img {
+      .main-image picture,
+      .main-image img {
         width: 100%;
         height: 100%;
-        object-fit: contain; 
+        object-fit: contain;
       }
 
-      
       @media (min-width: 768px) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 22/10) {
         .blur-background {
-          display: none; 
+          display: none;
         }
         .main-image {
-          filter: none; 
+          filter: none;
         }
-        .main-image picture, .main-image img {
-          object-fit: cover; 
+        .main-image picture,
+        .main-image img {
+          object-fit: cover;
         }
       }
 
@@ -193,7 +226,11 @@ const slides = [
         left: 0;
         width: 100%;
         height: 30vh;
-        background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0) 100%
+        );
         pointer-events: none;
         z-index: 2;
       }
@@ -211,7 +248,8 @@ const slides = [
         pointer-events: none;
       }
 
-      .brand, .links {
+      .brand,
+      .links {
         pointer-events: auto;
       }
 
@@ -267,11 +305,13 @@ const slides = [
     </style>
 
     <script>
-      const slides = document.querySelectorAll('.slide');
-      const slider = document.getElementById('slider');
-      
-      let otherIndices = Array.from(slides).map((_, i) => i).slice(1);
-      
+      const slides = document.querySelectorAll(".slide");
+      const slider = document.getElementById("slider");
+
+      let otherIndices = Array.from(slides)
+        .map((_, i) => i)
+        .slice(1);
+
       for (let i = otherIndices.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [otherIndices[i], otherIndices[j]] = [otherIndices[j], otherIndices[i]];
@@ -280,16 +320,16 @@ const slides = [
       let finalSequence = [0, ...otherIndices];
 
       let currentStep = 0;
-      let slideInterval;
+      let slideInterval: number | undefined;
       const INTERVAL_TIME = 4000;
 
-      function renderSlide(step) {
+      function renderSlide(step: number) {
         if (!slides.length) return;
-        
-        slides.forEach(slide => slide.classList.remove('active'));
-        
+
+        slides.forEach((slide) => slide.classList.remove("active"));
+
         const realDomIndex = finalSequence[step];
-        slides[realDomIndex].classList.add('active');
+        slides[realDomIndex].classList.add("active");
       }
 
       function showNextSlide() {
@@ -305,7 +345,7 @@ const slides = [
       startInterval();
 
       if (slider) {
-        slider.addEventListener('click', () => {
+        slider.addEventListener("click", () => {
           showNextSlide();
           startInterval();
         });
