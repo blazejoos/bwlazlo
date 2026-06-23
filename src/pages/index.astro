@@ -49,14 +49,19 @@ const slides = [
 
     <main class="slider-container" id="slider" title="Kliknij, aby zobaczyć następne zdjęcie">
       {slides.map((slide, index) => (
-        <div class="slide" data-index={index}>
+        <div class={`slide ${index === 0 ? 'active' : ''}`} data-index={index}>
           
           <div class="blur-background">
             <Picture 
               src={slide.src} 
               formats={['avif', 'webp']} 
+              width={800} 
+              quality={40} 
               alt="" 
               role="presentation"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : "auto"}
+              decoding={index === 0 ? "sync" : "async"}
             />
           </div>
 
@@ -64,7 +69,12 @@ const slides = [
             <Picture 
               src={slide.src} 
               formats={['avif', 'webp']} 
+              width={1920}
+              quality={80}
               alt={slide.alt}
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchpriority={index === 0 ? "high" : "auto"}
+              decoding={index === 0 ? "sync" : "async"}
             />
           </div>
 
@@ -130,6 +140,10 @@ const slides = [
         pointer-events: auto;
       }
 
+      /* ========================================================
+         TRYB DOMYŚLNY: Ochrona pełnego kadru (Telefony, Tablety, Ultrawide 21:9)
+         Zastosowane, gdy ekran jest ekstremalnie wąski lub ekstremalnie szeroki
+         ======================================================== */
       .blur-background {
         position: absolute;
         top: 0;
@@ -143,9 +157,9 @@ const slides = [
         width: 100%;
         height: 100%;
         object-fit: cover;
-        -webkit-filter: blur(6px) brightness(0.8);
-        filter: blur(6px) brightness(0.8);
-        transform: scale(1.2);
+        -webkit-filter: blur(15px) brightness(0.6);
+        filter: blur(15px) brightness(0.6);
+        transform: scale(1.1);
       }
 
       .main-image {
@@ -156,7 +170,7 @@ const slides = [
         display: flex;
         align-items: center;
         justify-content: center;
-        filter: drop-shadow(0 0 40px rgba(0, 0, 0, 0.8)); 
+        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5)); 
       }
       .main-image picture, .main-image img {
         width: 100%;
@@ -164,18 +178,24 @@ const slides = [
         object-fit: contain; 
       }
 
-      @media (min-width: 768px) and (min-aspect-ratio: 4/3) and (max-aspect-ratio: 2/1) {
+      /* ========================================================
+         ZŁOTY ŚRODEK: Laptopy i standardowe monitory PC
+         Włącza pełny ekran tylko dla proporcji między 1:1 a 2.2:1
+         Twój ekran 21:9 (2.33:1) celowo się tu nie łapie!
+         ======================================================== */
+      @media (min-width: 768px) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 22/10) {
         .blur-background {
-          display: none;
+          display: none; 
         }
         .main-image {
-          filter: none;
+          filter: none; 
         }
         .main-image picture, .main-image img {
-          object-fit: cover;
+          object-fit: cover; 
         }
       }
 
+      /* UI INTERFEJS */
       .scrim {
         position: absolute;
         bottom: 0;
@@ -259,29 +279,30 @@ const slides = [
       const slides = document.querySelectorAll('.slide');
       const slider = document.getElementById('slider');
       
-
-      let shuffledIndices = Array.from(slides).map((_, i) => i);
-      for (let i = shuffledIndices.length - 1; i > 0; i--) {
+      let otherIndices = Array.from(slides).map((_, i) => i).slice(1);
+      
+      for (let i = otherIndices.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [shuffledIndices[i], shuffledIndices[j]] = [shuffledIndices[j], shuffledIndices[i]];
+        [otherIndices[i], otherIndices[j]] = [otherIndices[j], otherIndices[i]];
       }
+
+      let finalSequence = [0, ...otherIndices];
 
       let currentStep = 0;
       let slideInterval;
-      const INTERVAL_TIME = 6000;
+      const INTERVAL_TIME = 4000;
 
       function renderSlide(step) {
         if (!slides.length) return;
         
         slides.forEach(slide => slide.classList.remove('active'));
         
-    
-        const realDomIndex = shuffledIndices[step];
+        const realDomIndex = finalSequence[step];
         slides[realDomIndex].classList.add('active');
       }
 
       function showNextSlide() {
-        currentStep = (currentStep + 1) % shuffledIndices.length;
+        currentStep = (currentStep + 1) % finalSequence.length;
         renderSlide(currentStep);
       }
 
@@ -290,7 +311,6 @@ const slides = [
         slideInterval = setInterval(showNextSlide, INTERVAL_TIME);
       }
 
-      renderSlide(currentStep);
       startInterval();
 
       if (slider) {
