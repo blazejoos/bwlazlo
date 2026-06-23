@@ -140,10 +140,6 @@ const slides = [
         pointer-events: auto;
       }
 
-      /* ========================================================
-         TRYB DOMYŚLNY: Ochrona pełnego kadru (Telefony, Tablety, Ultrawide 21:9)
-         Zastosowane, gdy ekran jest ekstremalnie wąski lub ekstremalnie szeroki
-         ======================================================== */
       .blur-background {
         position: absolute;
         top: 0;
@@ -178,11 +174,7 @@ const slides = [
         object-fit: contain; 
       }
 
-      /* ========================================================
-         ZŁOTY ŚRODEK: Laptopy i standardowe monitory PC
-         Włącza pełny ekran tylko dla proporcji między 1:1 a 2.2:1
-         Twój ekran 21:9 (2.33:1) celowo się tu nie łapie!
-         ======================================================== */
+      
       @media (min-width: 768px) and (min-aspect-ratio: 1/1) and (max-aspect-ratio: 22/10) {
         .blur-background {
           display: none; 
@@ -195,7 +187,6 @@ const slides = [
         }
       }
 
-      /* UI INTERFEJS */
       .scrim {
         position: absolute;
         bottom: 0;
